@@ -42,6 +42,7 @@ class _MainScreenState extends State<MainScreen> {
               color: Colors.blue,
             ),
           ),
+          Image.network('https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
           const SizedBox(
             height: 8,
           ),

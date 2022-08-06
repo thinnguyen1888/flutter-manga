@@ -1,4 +1,5 @@
 import 'package:demo/modules/main/models/manga_model.dart';
+import 'package:flutter/cupertino.dart';
 
 class MainBloc {
   final mangaList = List<MangaModel>.empty(growable: true);
@@ -11,9 +12,6 @@ class MainBloc {
     final manga03 =
         MangaModel(id: "3", name: "007", author: "Stephen chow", price: 10000);
 
-    mangaList.add(manga01);
-    mangaList.add(manga02);
-    mangaList.add(manga03);
     mangaList.add(manga01);
     mangaList.add(manga02);
     mangaList.add(manga03);

@@ -4,6 +4,7 @@ class MangaModel {
   String? chapter;
   String author;
   double price;
+  String? image;
 
   MangaModel({
     required this.id,
@@ -11,6 +12,7 @@ class MangaModel {
     this.chapter,
     required this.author,
     required this.price,
+    this.image
   });
 
   String displayName() {

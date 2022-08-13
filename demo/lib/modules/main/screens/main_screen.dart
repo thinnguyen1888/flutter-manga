@@ -1,5 +1,6 @@
 import 'package:demo/modules/main/blocs/main_bloc.dart';
 import 'package:demo/modules/main/models/manga_model.dart';
+import 'package:demo/modules/main/screens/photo_viewer_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -23,7 +24,12 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildMangaItem(MangaModel mangaItem) {
+    const verticalSpacing8 = SizedBox(
+      height: 8,
+    );
+
     return Container(
+      color: Colors.transparent, //fullfill
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,9 +38,7 @@ class _MainScreenState extends State<MainScreen> {
             mangaItem.displayName(),
             style: const TextStyle(fontSize: 20),
           ),
-          const SizedBox(
-            height: 8,
-          ),
+          verticalSpacing8,
           Text(
             mangaItem.displayAuthor(),
             style: const TextStyle(
@@ -42,10 +46,13 @@ class _MainScreenState extends State<MainScreen> {
               color: Colors.blue,
             ),
           ),
-          Image.network('https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'),
-          const SizedBox(
-            height: 8,
+          verticalSpacing8,
+          Image.asset(
+            mangaItem.image ?? '',
+            height: 120,
+            fit: BoxFit.fill,
           ),
+          verticalSpacing8,
           Container(
             height: 1,
             color: Colors.grey,
@@ -55,11 +62,29 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  void onTapHandler(MangaModel mangaModel) {
+    Navigator.push(//create a new screen on top of Main screen
+      context,
+      MaterialPageRoute(
+        builder: (context) => PhotoViewerScreen(
+          imagePath: mangaModel.image ?? '',
+          mangaTitle: mangaModel.name,
+        ),
+      ),
+    );
+  }
+
   Widget _buildMangaList() {
     return ListView.builder(
         itemBuilder: (context, index) {
-          final mangaItem = _bloc.mangaList[index];
-          return _buildMangaItem(mangaItem);
+          final model = _bloc.mangaList[index];
+          return GestureDetector(
+            //get event
+            onTap: () {
+              onTapHandler(model);
+            },
+            child: _buildMangaItem(model),
+          );
         },
         itemCount: _bloc.mangaList.length);
   }
@@ -67,6 +92,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //wrap ui become 3 part
       appBar: AppBar(
         title: const Center(child: Text('Main')),
       ), //prevent rebuild
